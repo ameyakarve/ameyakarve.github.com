@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>   
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <title>Ameya Karve</title>
+        <meta name="description" content="" />
+
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/github.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/assets/css/material.min.css" />
+
+    </head>
+
+    <body style="background-color:#eee;">
+        <div style="position:absolute;z-index: -1;background-color: #6892b0;height: 300px;width:100%;" />
+        <div class="container">
+            <div class="row hidden-xs" style="padding-top:40px;">
+            </div>
+            <div class="row">
+                <div class="col-md-12 well" style="padding:0px;background-color: #e8e8e8;">
+                    <div class="row" style="height: 50px; width:100%;margin:0px;background-color:#406080;padding:0px;">
+</div>
+<div class="row" style="margin:0px;background-color:#406080;z-index:5;">
+    <div class="col-md-10 col-md-offset-2">
+        <h2 style="color:#fff;">Simple Undo-Redo in React-Flux</h2>
+        <h4 style="color:#bdc3c7;">
+            <time datetime="Thu Feb 06 2014 15:48:00 GMT+0530 (IST)">Thu Feb 06 2014 15:48:00 GMT+0530 (IST)</time>
+        </h4>
+    </div>
+</div><div class="row"  style="margin:0px;">
+    <div class="col-md-2" style="text-align:center;">
+        <a href="/" class="btn btn-danger btn-fab btn-raised mdi-action-home withripple hidden-xs" style="-webkit-transform:translate(0px, -28px);color:#fff;"><div class="ripple-wrapper"></div></a>
+    </div>
+    <div class="col-md-7">
+        <p></p>
+        <p>Facebook talked about their Flux workflow recently, which uses a one-way data flow in building apps. Brandon Tilley released a simple implementation last week with Fluxxor. He has written a nice description of the overall process <a href="http://fluxxor.com/what-is-flux.html">here</a>. I have built over the Fluxxor  Todo example to implement the Undo functionality myself. You can view a demo of the implementation <a href="http://ameyakarve.com/undoHack/">here</a>.</p>
+<p>I tried to extend the Flux store in a way similar to <a href="http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/">David Nolen</a> with Om, except, I used the immutable structures at the store level rather than on the React components themselves. Extending the store was rather trivial. In the initialize call of the store, I added </p>
+<pre><code class="lang-javascript">
+  <span class="hljs-keyword">this</span>.todoState = <span class="hljs-string">"BLANK_STATE"</span>;
+  <span class="hljs-keyword">this</span>.undoStates = Mori.<span class="hljs-built_in">list</span>(<span class="hljs-string">"BLANK_STATE"</span>);
+  <span class="hljs-keyword">this</span>.redoStates = Mori.<span class="hljs-built_in">list</span>();
+  <span class="hljs-keyword">this</span>.canUndo = <span class="hljs-keyword">false</span>;
+  <span class="hljs-keyword">this</span>.canRedo = <span class="hljs-keyword">false</span>;</code></pre>
+<p>I have used strings to store each state as they are immutable in JavaScript. undoStates and redoStates are an implementation of a List from functional programming. </p>
+<p>Further, after each update, I add </p>
+<pre><code class="lang-javascript">
+  <span class="hljs-keyword">this</span>.todosState = JSON.stringify(<span class="hljs-keyword">this</span>.todos);
+  <span class="hljs-keyword">this</span>.undoStates = Mori.conj(<span class="hljs-keyword">this</span>.undoStates, <span class="hljs-keyword">this</span>.todosState);
+  <span class="hljs-keyword">this</span>.redoStates = Mori.<span class="hljs-built_in">list</span>();
+  <span class="hljs-keyword">this</span>.canUndo = <span class="hljs-keyword">true</span>;
+  <span class="hljs-keyword">this</span>.canRedo = <span class="hljs-keyword">false</span>;</code></pre>
+<p>We also need handlers for undo and redo</p>
+<pre><code class="lang-javascript">
+  undo: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">this</span>.redoStates = Mori.conj(<span class="hljs-keyword">this</span>.redoStates, Mori.first(<span class="hljs-keyword">this</span>.undoStates));
+    <span class="hljs-keyword">this</span>.undoStates = Mori.drop(<span class="hljs-number">1</span>, <span class="hljs-keyword">this</span>.undoStates);
+    <span class="hljs-keyword">this</span>.todosState = Mori.first(<span class="hljs-keyword">this</span>.undoStates);
+    <span class="hljs-keyword">this</span>.canUndo = Mori.count(<span class="hljs-keyword">this</span>.undoStates) > <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">this</span>.canRedo = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">if</span>(Mori.count(<span class="hljs-keyword">this</span>.undoStates) > <span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">this</span>.todos = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.todosState);
+    }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">this</span>.todos = [];
+    <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">"change"</span>);
+  },
+
+  redo: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">this</span>.undoStates = Mori.conj(<span class="hljs-keyword">this</span>.undoStates, Mori.first(<span class="hljs-keyword">this</span>.redoStates));
+    <span class="hljs-keyword">this</span>.todosState = Mori.first(<span class="hljs-keyword">this</span>.redoStates);
+    <span class="hljs-keyword">this</span>.redoStates = Mori.drop(<span class="hljs-number">1</span>, <span class="hljs-keyword">this</span>.redoStates);
+    <span class="hljs-keyword">this</span>.canRedo = !Mori.is_empty(<span class="hljs-keyword">this</span>.redoStates);
+    <span class="hljs-keyword">this</span>.canUndo = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">this</span>.todos = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.todosState);
+    <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">"change"</span>);
+  }</code></pre>
+<p>Finally, todos, canUndo and canRedo are pushed to the React component state. The corresponding action handlers are also written in.  </p>
+<p>I have implemented the Undo/Redo for a single store here. To implement the same for multiple stores, we just modify the dispatcher to keep track of what all stores are modified at each step and fire the undo and redo events for each store. We can also implement the functionality for a component that talks with a store trivially too. </p>
+<p>You can view the code on <a href="https://github.com/ameyakarve/undoHack">Github</a>. If you have any feedback, do write to me at ameyakarve@gmail.com </p>
+        <p></p>
+        <div id="disqus_thread"></div>
+    </div>
+    <div class="col-md-3" style="padding-left: 25px; padding-right: 25px">
+      <div class="row" style="background-color:#fff;-webkit-transform: translate(50px, -28px);"> 
+        <div class="col-md-12" style="background-color: #2c3e50">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+              <br>
+              <h3 style="color:white;">About me</h3>
+              <br>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-md-10 col-md-offset-2" style="text-align:left;padding-right: 25px;">
+          <br>
+          <p style="color:#000;">
+              My name is Ameya Karve. I am a software engineer; I mostly prefer to write in Javascript, Scala and Python. I graduated from IIT Madras in Engineering Design. I currently work for LinkedIn, and live in Bangalore, India
+          </p>
+          <p style="color:#000;">
+              You can follow me on <strong><a style="color:#1685a0;" href="twitter.com/ameyakarve">Twitter</a></strong>, <strong><a style="color:#1685a0;" href="github.com/ameyakarve">Github</a></strong> and <strong><a style="color:#1685a0;" href="in.linkedin.com/in/ameyakarve">LinkedIn</a></strong>. You can also write to me at ameyakarve [at] gmail [dot] com
+          </p>
+          <br>
+        </div>
+      </div>
+    </div>
+</div><script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ameyakarvecom';
+    var disqus_title = 'Simple Undo-Redo in React-Flux';
+    var disqus_identifier = 'flux-undo-redo'; 
+    var disqus_developer = 1;
+    // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        document.getElementById('disqus_thread').appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><div class="row"  style="margin:0px;padding-bottom:25px;background-color:#2c3e50;">
+    <div class="col-md-1" style="text-align:center;">
+        <a href="&#x2F;posts&#x2F;engineering-menu-rx.html" class="btn btn-success btn-fab btn-raised mdi-navigation-arrow-back withripple hidden-xs" style="color:#ecf0f1;"><div class="ripple-wrapper"></div></a>
+    
+    </div>
+    <div class="col-md-1 col-md-offset-10" style="text-align:center;">
+        <a href=
+        "&#x2F;posts&#x2F;Icarus-JavaScript-framework.html" class="btn btn-success btn-fab btn-raised mdi-navigation-arrow-forward hidden-xs" style="color:#ecf0f1;"><div class="ripple-wrapper"></div></a>
+    </div>
+</div>
+ 
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
