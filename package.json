@@ -1,0 +1,22 @@
+{
+  "name": "ameyakarve.com",
+  "version": "1.0.0",
+  "description": "Code for generating my static site",
+  "main": "configs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ent": "^2.0.0",
+    "gulp": "^3.8.10",
+    "gulp-debug": "^2.0.0",
+    "highlight.js": "^8.4.0",
+    "marked": "^0.3.2",
+    "marky-mark": "^1.2.1",
+    "mustache": "^1.0.0",
+    "yamlhead": "^0.1.0",
+    "yamljs": "^0.2.1"
+  }
+}
