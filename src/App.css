@@ -61,6 +61,10 @@ body {
 }
 
 main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   padding: 0.05rem;
 }
 
@@ -68,7 +72,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.1rem; /* Reduced from 0.25rem to 0.1rem */
 }
 
 .values-section {
@@ -170,4 +174,16 @@ main {
   main {
     padding: 0.025rem;
   }
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.table-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-top: 0.1rem; /* Reduced from 20px to 0.1rem */
 }

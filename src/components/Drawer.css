@@ -1,0 +1,36 @@
+.drawer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: var(--dark-bg);
+  color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.drawer-header h2 {
+  margin: 0;
+  color: var(--mint-green);
+}
+
+.drawer-header button {
+  background: none;
+  border: none;
+  color: var(--mint-green);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.drawer-content {
+  /* Add styles for drawer content */
+}

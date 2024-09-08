@@ -123,3 +123,16 @@
     padding: 4px;
   }
 }
+
+.control-panel-container {
+  position: relative;
+  width: 100%;
+}
+
+.drawer-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 999;
+}
