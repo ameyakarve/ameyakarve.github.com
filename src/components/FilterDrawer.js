@@ -37,7 +37,6 @@ function FilterDrawer({ isOpen, onClose, onFilter, initialFilterConfig }) {
   return (
     <div className="drawer filter-drawer">
       <div className="drawer-content">
-        <label className="filter-label">Filter by teams:</label>
         <div className="team-chips-grid">
           {allTeams.map(team => (
             <button

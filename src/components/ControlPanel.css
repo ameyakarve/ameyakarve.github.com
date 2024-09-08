@@ -2,6 +2,8 @@
   --mint-green: #00ffb3;
   --mint-green-dark: #00cc8f;
   --dark-bg: #1e1e1e;
+  --reset-button: #FF5722;  /* Deep Orange */
+  --reset-button-hover: #E64A19;  /* Slightly darker shade for hover state */
 }
 
 .control-panel {
@@ -88,6 +90,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.icon-button.active {
+  background-color: var(--mint-green);
+  color: var(--dark-bg);
 }
 
 .icon-button svg {
@@ -148,12 +156,12 @@
 
 .reset-button-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;  /* Changed from center to flex-start */
   padding: 12px; /* Changed from margin to padding */
 }
 
 .reset-button {
-  background-color: var(--mint-green);
+  background-color: var(--reset-button);
   color: var(--dark-bg);
   border: none;
   border-radius: 12px;
@@ -164,7 +172,7 @@
 }
 
 .reset-button:hover {
-  background-color: var(--mint-green-dark);
+  background-color: var(--reset-button-hover);
 }
 
 @media (max-width: 576px) {
@@ -254,7 +262,7 @@
 }
 
 .reset-button {
-  background-color: var(--mint-green);
+  background-color: var(--reset-button);
   color: var(--dark-bg);
   border: none;
   border-radius: 12px;
@@ -265,7 +273,7 @@
 }
 
 .reset-button:hover {
-  background-color: var(--mint-green-dark);
+  background-color: var(--reset-button-hover);
 }
 
 @media (max-width: 576px) {

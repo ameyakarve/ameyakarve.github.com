@@ -76,7 +76,7 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
           </div>
           <div className="icons">
             <button 
-              className="icon-button"
+              className={`icon-button ${isSortDrawerOpen ? 'active' : ''}`}
               title="Sort" 
               onClick={toggleSortDrawer}
             >
@@ -85,7 +85,7 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
               </svg>
             </button>
             <button 
-              className="icon-button"
+              className={`icon-button ${isFilterDrawerOpen ? 'active' : ''}`}
               title="Filter" 
               onClick={toggleFilterDrawer}
             >
