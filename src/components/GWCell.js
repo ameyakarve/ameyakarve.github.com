@@ -1,7 +1,15 @@
 import React from 'react';
+import './Table.css';
 
-function GWCell({ value }) {
-  return <div className="gw-cell">{value}</div>;
+function GWCell({ opponent, isHome, value }) {
+  return (
+    <div className="gw-cell">
+      <div className="opponent">
+        {opponent} ({isHome ? 'H' : 'A'})
+      </div>
+      <div className="value">{value}</div>
+    </div>
+  );
 }
 
 export default GWCell;

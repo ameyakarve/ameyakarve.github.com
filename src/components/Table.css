@@ -1,7 +1,9 @@
 .table-container {
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px); /* Increased available space for table */
   position: relative;
-  margin-bottom: 0.05rem;
+  margin-bottom: 0;
 }
 
 .fdr-table {
@@ -71,23 +73,27 @@ th.fixed-column {
 }
 
 .gw-cell {
-  font-weight: bold;
-  padding: 0.05rem 0.025rem !important;
-  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 0; /* Removed vertical padding */
 }
 
 .gw-cell .opponent {
-  font-size: 0.5rem;
-  font-weight: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.1;
+  font-size: 0.8em; /* Increased from 0.75em */
+  color: #aaa;
+  margin-bottom: 1px; /* Reverted to 1px from 2px */
+  line-height: 1; /* Reverted to 1 from 1.2 */
+  font-weight: 500;
 }
 
 .gw-cell .value {
-  font-size: 0.65rem;
-  line-height: 1.1;
+  font-size: 1em; /* Increased from 0.95em */
+  font-weight: bold;
+  line-height: 1; /* Reverted to 1 from 1.2 */
 }
 
 .gw-cell.easy {
@@ -108,23 +114,121 @@ th.fixed-column {
 .fpl-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.75rem; /* Increased from 0.65rem */
+  background-color: var(--surface);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.fpl-table th,
-.fpl-table td {
-  border: 1px solid var(--table-border);
-  padding: 8px;
+.fpl-table th, .fpl-table td {
+  border: none;
+  padding: 2px 3px; /* Slightly increased padding */
   text-align: center;
+  min-width: 1.6rem; /* Increased from 1.4rem */
 }
 
 .fpl-table th {
-  background-color: var(--table-header-bg);
-  color: var(--on-surface);
+  background-color: #333333; /* Darker header background for better contrast */
+  font-weight: 600;
+  color: #ffffff; /* Bright text color for contrast */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 24px;
+}
+
+.fpl-table tr:not(:last-child) td {
+  border-bottom: 1px solid var(--table-border);
+}
+
+.fpl-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #1a1a1a; /* Slightly lighter than the main background for distinction */
+  z-index: 5;
+  min-width: 2rem !important; /* Increased from 1.8rem */
+  text-align: right !important; /* Changed from left to right */
+  padding-right: 3px; /* Changed padding-left to padding-right */
+  color: #ffffff; /* Bright text color for contrast */
+  font-weight: 500; /* Slightly bolder text */
+}
+
+.fpl-table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  text-align: right !important; /* Added to align header with the team names */
+  padding-right: 3px; /* Added to match the padding of the team names */
+  background-color: #3a3a3a; /* Slightly darker than the header for distinction */
+  color: #ffffff; /* Bright text color for contrast */
+}
+
+@media (max-width: 667px) {
+  .table-container {
+    max-height: calc(667px - 100px); /* Adjust based on your header and control panel height */
+  }
+
+  .fpl-table {
+    font-size: 0.7rem; /* Increased from 0.6rem */
+  }
+
+  .fpl-table th, .fpl-table td {
+    padding: 1px 2px;
+    min-width: 1.5rem; /* Increased from 1.3rem */
+  }
+
+  .fpl-table td:first-child {
+    min-width: 1.8rem !important; /* Increased from 1.6rem */
+  }
+
+  .gw-cell .opponent {
+    font-size: 0.7em; /* Increased from 0.65em */
+  }
+
+  .gw-cell .value {
+    font-size: 0.9em; /* Increased from 0.85em */
+  }
 }
 
 .gw-cell {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 0; /* Removed vertical padding */
 }
+
+.gw-cell .opponent {
+  font-size: 0.8em; /* Increased from 0.75em */
+  color: #aaa;
+  margin-bottom: 1px; /* Reverted to 1px from 2px */
+  line-height: 1; /* Reverted to 1 from 1.2 */
+  font-weight: 500;
+}
+
+.gw-cell .value {
+  font-size: 1em; /* Increased from 0.95em */
+  font-weight: bold;
+  line-height: 1; /* Reverted to 1 from 1.2 */
+}
+
+.gw-cell.easy {
+  background-color: #e6ffe6;
+  color: #006600;
+}
+
+.gw-cell.medium {
+  background-color: #ffffcc;
+  color: #666600;
+}
+
+.gw-cell.hard {
+  background-color: #ffe6e6;
+  color: #660000;
+}
+
+/* Remove unused styles */
 

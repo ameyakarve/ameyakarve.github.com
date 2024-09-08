@@ -65,7 +65,7 @@ main {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 0.05rem;
+  padding: 0;
 }
 
 .control-panel {
@@ -180,10 +180,11 @@ main {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  max-height: 667px;
 }
 
 .table-container {
   flex-grow: 1;
   overflow-y: auto;
-  margin-top: 0.1rem; /* Reduced from 20px to 0.1rem */
+  margin-top: 0;
 }

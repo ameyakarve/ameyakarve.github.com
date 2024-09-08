@@ -14,8 +14,8 @@ function Table({ data, sortConfig, filterConfig }) {
     // Apply sorting
     if (sortConfig.gws.length > 0) {
       result = [...result].sort((a, b) => {
-        const aAvg = sortConfig.gws.reduce((sum, gw) => sum + a[gw], 0) / sortConfig.gws.length;
-        const bAvg = sortConfig.gws.reduce((sum, gw) => sum + b[gw], 0) / sortConfig.gws.length;
+        const aAvg = sortConfig.gws.reduce((sum, gw) => sum + a[gw].value, 0) / sortConfig.gws.length;
+        const bAvg = sortConfig.gws.reduce((sum, gw) => sum + b[gw].value, 0) / sortConfig.gws.length;
 
         if (sortConfig.order === 'ASC') {
           return aAvg - bAvg;
@@ -35,26 +35,32 @@ function Table({ data, sortConfig, filterConfig }) {
   const gameweeks = ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'];
 
   return (
-    <table className="fpl-table">
-      <thead>
-        <tr>
-          <th>Team</th>
-          {gameweeks.map(gw => <th key={gw}>{gw}</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        {filteredAndSortedData.map(row => (
-          <tr key={row.id}>
-            <td>{row.team}</td>
-            {gameweeks.map(gw => (
-              <td key={gw}>
-                <GWCell value={row[gw]} />
-              </td>
-            ))}
+    <div className="table-container">
+      <table className="fpl-table">
+        <thead>
+          <tr>
+            <th>Team</th>
+            {gameweeks.map(gw => <th key={gw}>{gw}</th>)}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {filteredAndSortedData.map(row => (
+            <tr key={row.id}>
+              <td>{row.team}</td>
+              {gameweeks.map(gw => (
+                <td key={gw}>
+                  <GWCell 
+                    opponent={row[gw].opponent}
+                    isHome={row[gw].isHome}
+                    value={row[gw].value}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
