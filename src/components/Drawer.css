@@ -2,35 +2,21 @@
   position: absolute;
   left: 0;
   right: 0;
-  background-color: var(--dark-bg);
+  background-color: #2a2a2a; /* Slightly lighter than --dark-bg for distinction */
   color: #ffffff;
-  padding: 20px;
+  padding: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 999;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.drawer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.drawer-header h2 {
-  margin: 0;
-  color: var(--mint-green);
-}
-
-.drawer-header button {
-  background: none;
-  border: none;
-  color: var(--mint-green);
-  cursor: pointer;
-  font-size: 14px;
 }
 
 .drawer-content {
-  /* Add styles for drawer content */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .drawer {
+    padding: 6px;
+  }
 }

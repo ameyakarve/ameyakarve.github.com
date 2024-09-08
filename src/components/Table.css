@@ -105,3 +105,26 @@ th.fixed-column {
   color: #660000;
 }
 
+.fpl-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fpl-table th,
+.fpl-table td {
+  border: 1px solid var(--table-border);
+  padding: 8px;
+  text-align: center;
+}
+
+.fpl-table th {
+  background-color: var(--table-header-bg);
+  color: var(--on-surface);
+}
+
+.gw-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

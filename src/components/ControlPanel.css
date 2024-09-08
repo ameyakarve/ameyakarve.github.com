@@ -32,7 +32,7 @@
 .chips-label {
   font-size: 12px;
   font-weight: bold;
-  color: #888888; /* Reverted to original color */
+  color: #888888;
   white-space: nowrap;
 }
 
@@ -55,6 +55,7 @@
   align-items: center;
   white-space: nowrap;
   transition: background-color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .chip:hover {
@@ -87,18 +88,83 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease;
-}
-
-.icon-button:hover {
-  background-color: rgba(0, 255, 179, 0.1);
-  border-radius: 4px;
 }
 
 .icon-button svg {
   width: 16px;
   height: 16px;
-  fill: var(--mint-green); /* Make icons solid */
+  fill: currentColor;
+}
+
+.control-panel-container {
+  position: relative;
+  width: 100%;
+}
+
+.drawer-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 999;
+}
+
+/* Styles moved from Drawer.css */
+.sort-label {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.gw-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+.order-chips {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-start;
+}
+
+/* Add these new styles for the FilterDrawer */
+.team-chips-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  padding: 6px 12px; /* Added top/bottom padding, kept left/right padding */
+  overflow-x: auto;
+}
+
+.filter-drawer .chip {
+  flex: 0 0 calc(14.28% - 4px); /* 14.28% is approximately 100% / 7 */
+  min-width: 40px; /* Adjust this value as needed */
+  padding: 4px 2px;
+  font-size: 11px;
+  text-align: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.reset-button-container {
+  display: flex;
+  justify-content: center;
+  padding: 12px; /* Changed from margin to padding */
+}
+
+.reset-button {
+  background-color: var(--mint-green);
+  color: var(--dark-bg);
+  border: none;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reset-button:hover {
+  background-color: var(--mint-green-dark);
 }
 
 @media (max-width: 576px) {
@@ -122,17 +188,251 @@
   .icon-button {
     padding: 4px;
   }
+
+  .sort-label {
+    font-size: 11px;
+  }
+
+  .chip {
+    font-size: 11px;
+    padding: 2px 6px;
+    height: 20px;
+  }
+
+  .gw-chips, .order-chips {
+    gap: 2px;
+  }
+
+  .filter-drawer .chip {
+    font-size: 10px;
+    padding: 2px 1px;
+    min-width: 30px; /* Adjust this value for mobile */
+  }
+
+  .team-chips-row {
+    padding: 4px 8px; /* Adjusted padding for mobile */
+    gap: 2px;
+  }
+
+  .reset-button-container {
+    padding: 8px; /* Adjusted padding for mobile */
+  }
 }
 
-.control-panel-container {
-  position: relative;
+/* FilterDrawer styles */
+.filter-drawer .drawer-content {
+  padding: 12px;
+}
+
+.filter-label {
+  font-size: 12px;
+  margin-bottom: 12px;
+  display: block;
+  text-align: center;
+}
+
+.team-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
   width: 100%;
 }
 
-.drawer-container {
+.filter-drawer .chip {
+  width: 100%;
+  padding: 4px 2px;
+  font-size: 11px;
+  text-align: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.reset-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.reset-button {
+  background-color: var(--mint-green);
+  color: var(--dark-bg);
+  border: none;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reset-button:hover {
+  background-color: var(--mint-green-dark);
+}
+
+@media (max-width: 576px) {
+  .filter-drawer .drawer-content {
+    padding: 8px;
+  }
+
+  .filter-label {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .team-chips-grid {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .filter-drawer .chip {
+    font-size: 10px;
+    padding: 2px 1px;
+    min-width: 0;
+  }
+
+  .reset-button {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
+
+.drawer {
   position: absolute;
   left: 0;
   right: 0;
-  top: 100%;
+  background-color: #252525; /* Slightly lighter than --dark-bg */
+  color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 999;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.filter-label {
+  font-size: 12px;
+  margin-bottom: 12px;
+  display: block;
+  text-align: center;
+}
+
+.team-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.filter-drawer .chip {
+  width: 100%;
+  padding: 4px 2px;
+  font-size: 11px;
+  text-align: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 576px) {
+  .drawer-content {
+    padding: 8px;
+  }
+
+  .filter-label {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .team-chips-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .filter-drawer .chip {
+    font-size: 10px;
+    padding: 2px 1px;
+    min-width: 0;
+  }
+
+  .reset-button {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
+
+/* SortDrawer styles */
+.sort-drawer .drawer-content {
+  padding: 12px;
+}
+
+.sort-label {
+  font-size: 12px;
+  margin-bottom: 12px;
+  display: block;
+  text-align: left;
+}
+
+.sort-chips-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sort-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.order-chips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.sort-drawer .chip {
+  width: 100%;
+  padding: 8px 4px;
+  font-size: 12px;
+  text-align: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.sort-drawer .order-chip {
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .sort-drawer .drawer-content {
+    padding: 8px;
+  }
+
+  .sort-label {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .sort-chips-container {
+    gap: 8px;
+  }
+
+  .sort-chips-grid,
+  .order-chips {
+    gap: 4px;
+  }
+
+  .sort-drawer .chip {
+    font-size: 10px;
+    padding: 6px 2px;
+  }
 }
