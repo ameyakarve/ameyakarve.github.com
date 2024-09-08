@@ -16,13 +16,17 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
     // Apply sorting
     if (sortConfig.gws.length > 0) {
       result = [...result].sort((a, b) => {
-        const aAvg = sortConfig.gws.reduce((sum, gw) => sum + a[gw].value, 0) / sortConfig.gws.length;
-        const bAvg = sortConfig.gws.reduce((sum, gw) => sum + b[gw].value, 0) / sortConfig.gws.length;
-
-        if (sortConfig.order === 'ASC') {
-          return aAvg - bAvg;
+        if (sortConfig.gws[0] === 'team') {
+          // Sort by team name
+          return sortConfig.order === 'ASC' 
+            ? a.team.localeCompare(b.team)
+            : b.team.localeCompare(a.team);
         } else {
-          return bAvg - aAvg;
+          // Sort by gameweek average
+          const aAvg = sortConfig.gws.reduce((sum, gw) => sum + a[gw].value, 0) / sortConfig.gws.length;
+          const bAvg = sortConfig.gws.reduce((sum, gw) => sum + b[gw].value, 0) / sortConfig.gws.length;
+
+          return sortConfig.order === 'ASC' ? aAvg - bAvg : bAvg - aAvg;
         }
       });
     }
@@ -81,12 +85,12 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
           <tr>
             <th onClick={() => handleHeaderClick('team')}>
               Team
-              {sortConfig.gws.length === 1 && sortConfig.gws[0] === 'team' && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
+              {sortConfig.gws[0] === 'team' && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
             </th>
             {gameweeks.map(gw => (
               <th key={gw} onClick={() => handleHeaderClick(gw)}>
                 {gw}
-                {sortConfig.gws.length === 1 && sortConfig.gws[0] === gw && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
+                {sortConfig.gws[0] === gw && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
               </th>
             ))}
           </tr>
