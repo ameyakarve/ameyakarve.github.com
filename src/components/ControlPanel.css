@@ -1,115 +1,125 @@
+:root {
+  --mint-green: #00ffb3;
+  --mint-green-dark: #00cc8f;
+  --dark-bg: #1e1e1e;
+}
+
 .control-panel {
+  padding: 8px;
+  background-color: var(--dark-bg);
+  color: #ffffff;
+  width: 100%;
+}
+
+.panel-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.1rem;
-  padding: 0.1rem;
-  background-color: var(--surface);
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 100%;
 }
 
-.values-section {
+.chips-container {
   display: flex;
   align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
-.values-section label {
-  margin-right: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--on-surface);
-  display: none;
+.chips-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #888888; /* Reverted to original color */
+  white-space: nowrap;
 }
 
 .chips {
   display: flex;
-  flex-wrap: wrap;
+  gap: 4px;
+  flex-wrap: nowrap;
 }
 
 .chip {
-  background-color: var(--chip-bg);
-  color: var(--chip-text);
-  border-radius: 0; /* Remove border radius */
-  padding: 0.05rem 0.2rem;
-  margin: 0.05rem;
-  font-size: 0.65rem;
+  padding: 4px 8px;
   border: none;
+  border-radius: 12px;
+  background-color: rgba(0, 255, 179, 0.1);
+  color: var(--mint-green);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  font-size: 12px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
 }
 
 .chip:hover {
-  background-color: var(--chip-hover-bg);
+  background-color: rgba(0, 255, 179, 0.2);
 }
 
 .chip.selected {
-  background-color: var(--primary-color);
-  color: var(--on-primary);
-  font-weight: 500;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background-color: var(--mint-green-dark);
+  color: var(--dark-bg);
 }
 
-.icons-section {
+.icons {
   display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+  margin-left: 8px;
+  margin-right: 12px;
 }
 
 .icon-button {
   background: none;
   border: none;
-  color: var(--icon-color);
-  font-size: 0.9rem;
   cursor: pointer;
-  margin-left: 0.1rem;
-  padding: 0.1rem;
-  border-radius: 50%;
-  transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  color: var(--mint-green);
+  padding: 4px;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
 }
 
 .icon-button:hover {
-  background-color: var(--icon-hover-bg);
+  background-color: rgba(0, 255, 179, 0.1);
+  border-radius: 4px;
 }
 
-@media (max-width: 667px) {
-  .control-panel {
-    padding: 0.05rem;
-    flex-wrap: wrap;
+.icon-button svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--mint-green); /* Make icons solid */
+}
+
+@media (max-width: 576px) {
+  .panel-content {
     justify-content: space-between;
-    margin-bottom: 0.25rem;
   }
 
-  .values-section {
-    flex: 1;
-    margin-right: 0.25rem; /* Reduced margin */
+  .chips-container {
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: calc(100% - 80px);
   }
 
-  .values-section label {
-    display: none;
-  }
-
-  .chips {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    max-width: calc(100% - 60px); /* Adjusted based on reduced icons-section width */
-    margin-right: 0.25rem; /* Reduced margin */
-  }
-
-  .chip {
+  .icons {
     flex-shrink: 0;
-    padding: 0.025rem 0.15rem; /* Further reduced padding */
-    margin: 0.025rem; /* Further reduced margin */
-    font-size: 0.6rem; /* Further reduced font size */
-  }
-
-  .icons-section {
-    display: flex;
-    align-items: center;
+    padding-left: 8px;
+    width: 80px;
+    justify-content: flex-end;
   }
 
   .icon-button {
-    padding: 0.05rem;
-    font-size: 0.75rem;
-    margin-left: 0.05rem; /* Reduced margin */
+    padding: 4px;
   }
 }
