@@ -2,7 +2,9 @@ import React, { useMemo } from 'react';
 import GWCell from './GWCell';
 import './Table.css';
 
-function Table({ data, sortConfig, filterConfig }) {
+function Table({ data, sortConfig, filterConfig, onRequestSort }) {
+  const gameweeks = ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'];
+
   const filteredAndSortedData = useMemo(() => {
     let result = data;
 
@@ -27,8 +29,6 @@ function Table({ data, sortConfig, filterConfig }) {
 
     return result;
   }, [data, sortConfig, filterConfig]);
-
-  const gameweeks = ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'];
 
   // Calculate min and max values
   const allValues = data.flatMap(row => gameweeks.map(gw => row[gw].value));
@@ -70,13 +70,25 @@ function Table({ data, sortConfig, filterConfig }) {
     return <div>No data available</div>;
   }
 
+  const handleHeaderClick = (gw) => {
+    onRequestSort(gw);
+  };
+
   return (
     <div className="table-container">
       <table className="fpl-table">
         <thead>
           <tr>
-            <th>Team</th>
-            {gameweeks.map(gw => <th key={gw}>{gw}</th>)}
+            <th onClick={() => handleHeaderClick('team')}>
+              Team
+              {sortConfig.gws.length === 1 && sortConfig.gws[0] === 'team' && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
+            </th>
+            {gameweeks.map(gw => (
+              <th key={gw} onClick={() => handleHeaderClick(gw)}>
+                {gw}
+                {sortConfig.gws.length === 1 && sortConfig.gws[0] === gw && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>

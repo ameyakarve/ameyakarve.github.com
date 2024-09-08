@@ -44,6 +44,13 @@ function App() {
     setFilterConfig(selectedTeams);
   };
 
+  const handleRequestSort = (gw) => {
+    setSortConfig(prevConfig => ({
+      gws: [gw],
+      order: prevConfig.gws[0] === gw && prevConfig.order === 'DESC' ? 'ASC' : 'DESC'
+    }));
+  };
+
   return (
     <div className="app">
       <Header />
@@ -54,7 +61,12 @@ function App() {
           initialFilterConfig={filterConfig}
           initialSortConfig={sortConfig}
         />
-        <Table data={data} sortConfig={sortConfig} filterConfig={filterConfig} />
+        <Table 
+          data={data} 
+          sortConfig={sortConfig} 
+          filterConfig={filterConfig} 
+          onRequestSort={handleRequestSort}
+        />
       </main>
     </div>
   );
