@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { fdrData } from '../fdrData';
 import './ControlPanel.css';
 
 function FilterDrawer({ isOpen, onClose, onFilter, initialFilterConfig }) {
-  const allTeams = [
-    'ARS', 'AVL', 'BOU', 'BRE', 'BHA', 'BUR', 'CHE',
-    'CRY', 'EVE', 'FUL', 'LIV', 'LUT', 'MCI', 'MUN',
-    'NEW', 'NFO', 'SHU', 'TOT', 'WHU', 'WOL'
-  ];
+  const allTeams =fdrData.map(d => d['GW/Team']).sort();
 
   const [selectedTeams, setSelectedTeams] = useState(initialFilterConfig);
 
