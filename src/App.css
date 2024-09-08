@@ -1,5 +1,39 @@
+:root {
+  --primary-color: #bb86fc;
+  --primary-variant: #3700b3;
+  --secondary-color: #03dac6;
+  --background: #121212;
+  --surface: #1e1e1e;
+  --error: #cf6679;
+  --on-primary: #000000;
+  --on-secondary: #000000;
+  --on-background: #ffffff;
+  --on-surface: #ffffff;
+  --on-error: #000000;
+  --chip-bg: #2c2c2c;
+  --chip-text: #e0e0e0;
+  --chip-hover-bg: #3d3d3d;
+  --icon-color: #bb86fc;
+  --icon-hover-bg: rgba(187, 134, 252, 0.12);
+  --table-header-bg: #2c2c2c;
+  --table-border: #3d3d3d;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--on-background);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 12px; 
+}
+
 .App {
-  text-align: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.05rem;
 }
 
 .App-logo {
@@ -14,25 +48,126 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: var(--header-bg);
+  padding: 0.05rem 0.1rem;
+  margin-bottom: 0.1rem;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-header h1 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+main {
+  padding: 0.05rem;
+}
+
+.control-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.values-section {
+  display: flex;
+  align-items: center;
+}
+
+.values-section label {
+  margin-right: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background-color: var(--chip-bg);
+  color: var(--chip-text);
+  border-radius: 1rem;
+  padding: 0.1rem 0.5rem;
+  margin: 0.1rem;
+  font-size: 0.7rem;
+}
+
+.icons-section {
+  display: flex;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: var(--icon-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  padding: 0.1rem;
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-right: 8px;
+    padding-left: 8px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+}
+
+.App {
+  max-width: 100%;
+  margin: 0;
+  padding: 0.05rem;
+}
+
+@media (max-width: 576px) {
+  .App {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .App {
+    padding: 0.25rem;
+  }
+}
+
+@media (max-width: 667px) {
+  .container {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  
+  .App {
+    padding: 0.025rem;
+  }
+
+  main {
+    padding: 0.025rem;
   }
 }

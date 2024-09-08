@@ -1,0 +1,115 @@
+.control-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.1rem;
+  padding: 0.1rem;
+  background-color: var(--surface);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.values-section {
+  display: flex;
+  align-items: center;
+}
+
+.values-section label {
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--on-surface);
+  display: none;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background-color: var(--chip-bg);
+  color: var(--chip-text);
+  border-radius: 0; /* Remove border radius */
+  padding: 0.05rem 0.2rem;
+  margin: 0.05rem;
+  font-size: 0.65rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.chip:hover {
+  background-color: var(--chip-hover-bg);
+}
+
+.chip.selected {
+  background-color: var(--primary-color);
+  color: var(--on-primary);
+  font-weight: 500;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.icons-section {
+  display: flex;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: var(--icon-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-left: 0.1rem;
+  padding: 0.1rem;
+  border-radius: 50%;
+  transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.icon-button:hover {
+  background-color: var(--icon-hover-bg);
+}
+
+@media (max-width: 667px) {
+  .control-panel {
+    padding: 0.05rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  .values-section {
+    flex: 1;
+    margin-right: 0.25rem; /* Reduced margin */
+  }
+
+  .values-section label {
+    display: none;
+  }
+
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: calc(100% - 60px); /* Adjusted based on reduced icons-section width */
+    margin-right: 0.25rem; /* Reduced margin */
+  }
+
+  .chip {
+    flex-shrink: 0;
+    padding: 0.025rem 0.15rem; /* Further reduced padding */
+    margin: 0.025rem; /* Further reduced margin */
+    font-size: 0.6rem; /* Further reduced font size */
+  }
+
+  .icons-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon-button {
+    padding: 0.05rem;
+    font-size: 0.75rem;
+    margin-left: 0.05rem; /* Reduced margin */
+  }
+}
