@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './ControlPanel.css';
 import SortDrawer from './SortDrawer';
 import FilterDrawer from './FilterDrawer';
@@ -18,18 +18,8 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
   }, [initialFilterConfig]);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (controlPanelRef.current && !controlPanelRef.current.contains(event.target)) {
-        setIsSortDrawerOpen(false);
-        setIsFilterDrawerOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    setSortConfig(initialSortConfig);
+  }, [initialSortConfig]);
 
   const handleChipClick = (chip) => {
     setSelectedChip(chip);
@@ -45,16 +35,16 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
     setIsSortDrawerOpen(false);
   };
 
-  const handleSort = (selectedGWs, sortOrder) => {
+  const handleSort = useCallback((selectedGWs, sortOrder) => {
     const newSortConfig = { gws: selectedGWs, order: sortOrder };
     setSortConfig(newSortConfig);
     onSort(newSortConfig);
-  };
+  }, [onSort]);
 
-  const handleFilter = (selectedTeams) => {
+  const handleFilter = useCallback((selectedTeams) => {
     setFilterConfig(selectedTeams);
     onFilter(selectedTeams);
-  };
+  }, [onFilter]);
 
   return (
     <div className="control-panel-container" ref={controlPanelRef}>

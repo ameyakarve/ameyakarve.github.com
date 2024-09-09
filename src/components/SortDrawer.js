@@ -8,10 +8,9 @@ function SortDrawer({ isOpen, onClose, onSort, initialSortConfig }) {
   const gameweeks = ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'];
 
   useEffect(() => {
-    if (selectedGWs.length > 0) {
-      onSort(selectedGWs, sortOrder);
-    }
-  }, [selectedGWs, sortOrder, onSort]);
+    setSelectedGWs(initialSortConfig.gws);
+    setSortOrder(initialSortConfig.order);
+  }, [initialSortConfig]);
 
   const handleGWClick = (gw) => {
     setSelectedGWs(prevSelected => {
@@ -19,12 +18,14 @@ function SortDrawer({ isOpen, onClose, onSort, initialSortConfig }) {
         ? prevSelected.filter(item => item !== gw)
         : [...prevSelected, gw];
       
+      onSort(newSelected, sortOrder);
       return newSelected;
     });
   };
 
   const handleSortOrderClick = (order) => {
     setSortOrder(order);
+    onSort(selectedGWs, order);
   };
 
   if (!isOpen) return null;
