@@ -88,6 +88,13 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
     setStartGW(Math.min(37, startGW + 1));
   };
 
+  const renderSortingTriangle = (gw) => {
+    if (sortConfig.gws.length === 1 && sortConfig.gws[0] === gw) {
+      return sortConfig.order === 'ASC' ? ' ▲' : ' ▼';
+    }
+    return <span style={{ color: 'transparent' }}> ▲</span>;
+  };
+
   return (
     <div className="table-container">
       <div className="scroll-buttons">
@@ -99,14 +106,12 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
           <tr>
             <th onClick={() => handleHeaderClick('team')}>
               Team
-              {sortConfig.gws[0] === 'team' && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
-              <span style={{ color: 'transparent' }}>{sortConfig.gws[0] !== 'team' ? ' ▲' : ''}</span>
+              {renderSortingTriangle('team')}
             </th>
             {visibleGameweeks.map(gw => (
               <th key={gw} onClick={() => handleHeaderClick(gw)}>
                 {gw}
-                {sortConfig.gws[0] === gw && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
-                <span style={{ color: 'transparent' }}>{sortConfig.gws[0] !== gw ? ' ▲' : ''}</span>
+                {renderSortingTriangle(gw)}
               </th>
             ))}
           </tr>

@@ -38,7 +38,7 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
   const handleSort = useCallback((selectedGWs, sortOrder) => {
     const newSortConfig = { gws: selectedGWs, order: sortOrder };
     setSortConfig(newSortConfig);
-    onSort(newSortConfig);
+    onSort(newSortConfig, selectedGWs.length);
   }, [onSort]);
 
   const handleFilter = useCallback((selectedTeams) => {
