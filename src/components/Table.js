@@ -86,6 +86,7 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
             <th onClick={() => handleHeaderClick('team')}>
               Team
               {sortConfig.gws[0] === 'team' && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
+              <span style={{ color: 'transparent' }}>{sortConfig.gws[0] !== 'team' ? ' ▲' : ''}</span>
             </th>
             {gameweeks.map(gw => (
               <th key={gw} onClick={() => handleHeaderClick(gw)}>
