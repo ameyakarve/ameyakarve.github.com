@@ -249,7 +249,7 @@ th.fixed-column {
   padding: 4px 5px;
   background-color: rgba(128, 128, 128); 
   color: var(--on-surface);
-  border: none;
+  border: 1px white;
   border-radius: 50%;
   cursor: pointer;
   pointer-events: auto;
