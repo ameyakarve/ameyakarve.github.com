@@ -92,6 +92,7 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
               <th key={gw} onClick={() => handleHeaderClick(gw)}>
                 {gw}
                 {sortConfig.gws[0] === gw && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
+                <span style={{ color: 'transparent' }}>{sortConfig.gws[0] !== gw ? ' ▲' : ''}</span>
               </th>
             ))}
           </tr>

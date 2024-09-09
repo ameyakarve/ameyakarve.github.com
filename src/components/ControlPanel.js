@@ -61,7 +61,7 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
       <div className="control-panel">
         <div className="panel-content">
           <div className="chips-container">
-            <span className="chips-label">VALUES</span>
+            <span className="chips-label">METRIC</span>
             <div className="chips">
               {chips.map((chip) => (
                 <button
