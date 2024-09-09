@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './ControlPanel.css';
+import { START_GW } from '../constants';
 
 function SortDrawer({ isOpen, onClose, onSort, initialSortConfig }) {
   const [selectedGWs, setSelectedGWs] = useState(initialSortConfig.gws);
   const [sortOrder, setSortOrder] = useState(initialSortConfig.order);
 
-  const gameweeks = ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'];
+  // Calculate the range of gameweeks to display
+  const endGW = Math.min(38, START_GW + 5);
+  const gameweeks = Array.from(
+    { length: endGW - START_GW + 1 },
+    (_, i) => `GW${START_GW + i}`
+  );
 
   useEffect(() => {
     setSelectedGWs(initialSortConfig.gws);

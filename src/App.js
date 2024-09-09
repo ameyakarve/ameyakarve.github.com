@@ -4,9 +4,11 @@ import ControlPanel from './components/ControlPanel';
 import Table from './components/Table';
 import { fdrData } from './fdrData';
 import './App.css';
+import { START_GW } from './constants';
 
 function App() {
-  const [sortConfig, setSortConfig] = useState({ gws: ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'], order: 'DESC' });
+  const initialSortConfig = [0,1,2,3,4,5].map(t => t + START_GW).filter(u => u <= 38).map(v => `GW${v}`); // take GWs from start
+  const [sortConfig, setSortConfig] = useState({ gws: initialSortConfig, order: 'DESC' });
   const [filterConfig, setFilterConfig] = useState([]);
   const [data, setData] = useState([]);
 

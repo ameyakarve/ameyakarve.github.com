@@ -396,7 +396,7 @@
 
 .sort-chips-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr); /* Adjust this if needed */
   gap: 8px;
   width: 100%;
 }
