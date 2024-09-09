@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import GWCell from './GWCell';
 import './Table.css';
+import { START_GW } from '../constants';
 
 function Table({ data, sortConfig, filterConfig, onRequestSort }) {
-  const [startGW, setStartGW] = useState(1);
+  const [startGW, setStartGW] = useState(START_GW);
   const gameweeks = Array.from({ length: 38 }, (_, i) => `GW${i + 1}`);
   const visibleGameweeks = gameweeks.slice(startGW - 1, startGW + 5);
 
