@@ -232,3 +232,40 @@ th.fixed-column {
 
 /* Remove unused styles */
 
+
+.scroll-buttons {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+  pointer-events: none;
+}
+
+.scroll-buttons button {
+  padding: 2px 5px;
+  background-color: var(--table-header-bg);
+  color: var(--on-surface);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.scroll-buttons button:hover {
+  opacity: 1;
+}
+
+.scroll-buttons button:disabled {
+  opacity: 0;
+  visibility: hidden;
+  cursor: default;
+}
+

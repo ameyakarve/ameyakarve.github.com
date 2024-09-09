@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import GWCell from './GWCell';
 import './Table.css';
 
 function Table({ data, sortConfig, filterConfig, onRequestSort }) {
-  const gameweeks = ['GW1', 'GW2', 'GW3', 'GW4', 'GW5', 'GW6'];
+  const [startGW, setStartGW] = useState(1);
+  const gameweeks = Array.from({ length: 38 }, (_, i) => `GW${i + 1}`);
+  const visibleGameweeks = gameweeks.slice(startGW - 1, startGW + 5);
 
   const filteredAndSortedData = useMemo(() => {
     let result = data;
@@ -35,7 +37,7 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
   }, [data, sortConfig, filterConfig]);
 
   // Calculate min and max values
-  const allValues = data.flatMap(row => gameweeks.map(gw => row[gw].value));
+  const allValues = data.flatMap(row => gameweeks.map(gw => row[gw]?.value ?? 0));
   const minValue = Math.min(...allValues);
   const maxValue = Math.max(...allValues);
 
@@ -78,8 +80,20 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
     onRequestSort(gw);
   };
 
+  const handleScrollLeft = () => {
+    setStartGW(Math.max(1, startGW - 1));
+  };
+
+  const handleScrollRight = () => {
+    setStartGW(Math.min(37, startGW + 1));
+  };
+
   return (
     <div className="table-container">
+      <div className="scroll-buttons">
+        <button onClick={handleScrollLeft} disabled={startGW === 1}>←</button>
+        <button onClick={handleScrollRight} disabled={startGW === 33}>→</button>
+      </div>
       <table className="fpl-table">
         <thead>
           <tr>
@@ -88,7 +102,7 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
               {sortConfig.gws[0] === 'team' && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
               <span style={{ color: 'transparent' }}>{sortConfig.gws[0] !== 'team' ? ' ▲' : ''}</span>
             </th>
-            {gameweeks.map(gw => (
+            {visibleGameweeks.map(gw => (
               <th key={gw} onClick={() => handleHeaderClick(gw)}>
                 {gw}
                 {sortConfig.gws[0] === gw && (sortConfig.order === 'ASC' ? ' ▲' : ' ▼')}
@@ -101,14 +115,16 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
           {filteredAndSortedData.map(row => (
             <tr key={row.id}>
               <td>{row.team}</td>
-              {gameweeks.map(gw => (
+              {visibleGameweeks.map(gw => (
                 <td key={gw}>
-                  <GWCell 
-                    opponent={row[gw].opponent}
-                    isHome={row[gw].isHome}
-                    value={row[gw].value}
-                    backgroundColor={getColor(row[gw].value)}
-                  />
+                  {row[gw] ? (
+                    <GWCell 
+                      opponent={row[gw].opponent}
+                      isHome={row[gw].isHome}
+                      value={row[gw].value}
+                      backgroundColor={getColor(row[gw].value)}
+                    />
+                  ) : null}
                 </td>
               ))}
             </tr>
