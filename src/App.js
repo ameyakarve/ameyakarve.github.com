@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import ControlPanel from './components/ControlPanel';
 import Table from './components/Table';
-import { fdrData } from './fdrData';
 import { fdrMap } from './generatedFdrMap'; // Import fdrMap from generatedFdrMap
 import './App.css';
 import { START_GW } from './constants';
 
 function App() {
-  const initialSortConfig = [0,1,2,3,4,5].map(t => t + START_GW).filter(u => u <= 38).map(v => `GW${v}`); // take GWs from start
+  const initialSortConfig = [0,1,2,3,4,5].map(t => t + START_GW).filter(u => u <= 38).map(v => `GW${v}`);
   const [sortConfig, setSortConfig] = useState({ gws: initialSortConfig, order: 'DESC' });
   const [filterConfig, setFilterConfig] = useState([]);
   const [data, setData] = useState([]);
+  const [selectedMetric, setSelectedMetric] = useState('FDR'); // Add this line
 
   useEffect(() => {
     const processedData = Object.entries(fdrMap).map(([team, fixtures], index) => {
@@ -21,7 +21,10 @@ function App() {
         processedFixtures[gwKey] = {
           opponent: fixture.opponent,
           isHome: fixture.home,
-          value: (fixture.fdr).toFixed(1) // Only 1 decimals
+          fdr: fixture.fdr.toFixed(1),
+          xgs: fixture.xgs.toFixed(1),
+          xgc: fixture.xgc.toFixed(1),
+          xcc: fixture.xcc.toFixed(1)
         };
       });
 
@@ -52,6 +55,10 @@ function App() {
     }));
   };
 
+  const handleMetricChange = (metric) => { // Add this function
+    setSelectedMetric(metric);
+  };
+
   return (
     <div className="app">
       <Header />
@@ -61,12 +68,15 @@ function App() {
           onFilter={handleFilter} 
           initialFilterConfig={filterConfig}
           initialSortConfig={sortConfig}
+          onMetricChange={handleMetricChange} // Add this prop
+          selectedMetric={selectedMetric} // Add this prop
         />
         <Table 
           data={data} 
           sortConfig={sortConfig} 
           filterConfig={filterConfig} 
           onRequestSort={handleRequestSort}
+          selectedMetric={selectedMetric} // Add this prop
         />
       </main>
     </div>

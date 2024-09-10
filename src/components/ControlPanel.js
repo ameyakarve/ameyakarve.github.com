@@ -3,8 +3,7 @@ import './ControlPanel.css';
 import SortDrawer from './SortDrawer';
 import FilterDrawer from './FilterDrawer';
 
-function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig }) {
-  const [selectedChip, setSelectedChip] = useState('FDR');
+function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig, onMetricChange, selectedMetric }) {
   const [isSortDrawerOpen, setIsSortDrawerOpen] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [filterConfig, setFilterConfig] = useState(initialFilterConfig);
@@ -22,7 +21,7 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
   }, [initialSortConfig]);
 
   const handleChipClick = (chip) => {
-    setSelectedChip(chip);
+    onMetricChange(chip);
   };
 
   const toggleSortDrawer = () => {
@@ -56,7 +55,7 @@ function ControlPanel({ onSort, onFilter, initialFilterConfig, initialSortConfig
               {chips.map((chip) => (
                 <button
                   key={chip}
-                  className={`chip ${selectedChip === chip ? 'selected' : ''}`}
+                  className={`chip ${selectedMetric === chip ? 'selected' : ''}`}
                   onClick={() => handleChipClick(chip)}
                 >
                   {chip}
