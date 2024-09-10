@@ -87,7 +87,7 @@ async function downloadAndSaveData() {
                 let pLoss = 1.0 / (Math.pow(10.0, (+eloDiff/400.0)) + 1.0);
                 let modelAdjustment = (modelCoeff[name.shortName][home?0:1] + modelCoeff[opponent][home?1:0]);
                 let adjustedP = ((pWin / (pWin + pLoss)) + modelAdjustment) / (1 + 2 * modelAdjustment);
-                return {opponent: opponent, home: home, fdr: 10 * (adjustedP > 1.0 ? 1.0 : adjustedP < 0.0 ? 0.0 : adjustedP)};
+                return {opponent: opponent, home: home, fdr: 10 * (adjustedP > 1.0 ? 1.0 : adjustedP < 0.0 ? 0.0 : adjustedP), xgs: xgs(adjustedP), xgc: xgc(adjustedP), xcc: 0.5};
             });
         });
     }
@@ -101,3 +101,24 @@ async function downloadAndSaveData() {
 }
 
 downloadAndSaveData();
+
+// xGS xGC computation
+function xgs(prob) {
+    let x = prob * 20.0;
+    if (prob >= 0.9) {
+        // Linear interpolation 1.3*x + -20.9
+        return  1.3*x - 20.9;
+    }
+    // Use 0.681 + 0.171x + -0.0264x^2 + 2.62E-03x^3 + -7.66E-05x^4
+    return 0.681 + 0.171 * x - 0.0264 * x * x + 0.00262 * x * x * x - 0.0000766 * x * x * x * x;
+}
+
+function xgc(prob) {
+    let x = prob * 20.0;
+    if (prob <= 0.05) {
+        // Linear interpolation -1.3*x + 3.78
+        return  -1.3*x + 3.78;
+    }
+    // Use 2.37 + 0.126x + -0.0497x^2 + 3.71E-03x^3 + -8.88E-05x^4
+    return 2.37 + 0.126 * x - 0.0497 * x * x + 0.00371 * x * x * x - 0.0000888 * x * x * x * x;
+}
