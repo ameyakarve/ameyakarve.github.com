@@ -13,26 +13,26 @@ let names = fdrData.map(d => {
 });
 
 const modelCoeff = {
-    'LEI': [ 0.0661328,-0.01504796],
-    'ARS': [ 0.01706234,0.04745001],
-    'BOU': [ 0.07528398,0.00338777],
-    'BHA': [ 0.02471483,0.03082288],
-    'EVE': [ 0.02593292,0.00371114],
-    'SOU': [ 0.05586749, -0.05084018],
-    'NEW': [ 0.01278976,0.04081815],
-    'BRE': [ 0.02069933,0.01102145],
-    'CHE': [ 0.0288258, 0.01616876],
-    'MUN': [-0.02853797,0.07633645],
-    'NFO': [ 0.10068624, -0.06897336],
-    'FUL': [ 0.01506008, -0.00571605],
-    'LIV': [-0.01606548,0.07660902],
-    'WOL': [-0.01358386,0.05602879],
-    'TOT': [ 0.02662614,0.041118,],
-    'MCI': [-0.06652872,0.07254916],
-    'AVL': [-0.03701366,0.09071942],
-    'WHU': [-0.04478508,0.06398836],
-    'CRY': [ 0.06293597,0.04755243],
-    'IPS': [ 0.15590807, -0.05569325]
+    'LEI':  [ 0.00323536 , 0.07673347],
+    'ARS':   [ 0.09892528 ,-0.08527686],
+    'BOU':   [ 0.09524827 , 0.03313174],
+    'BHA':   [ 0.01932818 , 0.079629  ],
+    'EVE':   [ 0.03981877 , 0.03512704],
+    'SOU':   [-0.07810612 , 0.06346211],
+    'NEW':   [ 0.06942482 , 0.00621383],
+    'BRE':   [ 0.02258154 , 0.0549944 ],
+    'CHE':   [ 0.11735395 ,-0.01472452],
+    'MUN':   [-0.03933321 , 0.11714428],
+    'NFO':   [ 0.06940073 ,-0.03249056],
+    'FUL':   [ 0.00746323 , 0.01919139],
+    'LIV':   [ 0.07304702 ,-0.05577057],
+    'WOL':   [-0.043662   , 0.07681533],
+    'TOT':   [ 0.03813187 , 0.05277905],
+    'MCI':   [-0.00951389 ,-0.06014205],
+    'AVL':   [ 0.00476875 , 0.13228408],
+    'WHU':   [-0.02316707 , 0.0978537 ],
+    'CRY':   [ 0.09452654 , 0.05997745],
+    'IPS':   [ 0.09954841 , 0.00208814]
 };
 
 async function downloadAndSaveData() {
@@ -81,10 +81,13 @@ async function downloadAndSaveData() {
             return Array.from(Array(38).keys()).map(t => d[`${t + 1}`]).map(u => {
                 let splits = u.split(' ');
                 let opponent = splits[0];
+                let home = '(H)' === splits[1];
                 let eloDiff = eloMap[name.shortName] - eloMap[opponent];
                 let pWin = 1.0 / (Math.pow(10.0, (-eloDiff/400.0)) + 1.0);
-                let adjustedP = pWin + modelCoeff[name.shortName][0] + modelCoeff[opponent][1];
-                return {opponent: opponent, home: '(H)' === splits[1], fdr: 2 * adjustedP - 1.0};
+                let pLoss = 1.0 / (Math.pow(10.0, (+eloDiff/400.0)) + 1.0);
+                let modelAdjustment = (modelCoeff[name.shortName][home?0:1] + modelCoeff[opponent][home?1:0]);
+                let adjustedP = ((pWin / (pWin + pLoss)) + modelAdjustment) / (1 + 2 * modelAdjustment);
+                return {opponent: opponent, home: home, fdr: adjustedP};
             });
         });
     }
