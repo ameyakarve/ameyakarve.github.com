@@ -77,7 +77,7 @@ async function downloadAndSaveData() {
     let fdrMap = {};
     
     for (const name of names) {
-        fdrMap[name.shortName] = fdrData.filter(d => d['GW/Team'] === name.shortName).map(d => {
+        fdrMap[name.shortName] = fdrData.filter(d => d['GW/Team'] === name.shortName).flatMap(d => {
             return Array.from(Array(38).keys()).map(t => d[`${t + 1}`]).map(u => {
                 let splits = u.split(' ');
                 let opponent = splits[0];

@@ -3,6 +3,7 @@ import Header from './components/Header';
 import ControlPanel from './components/ControlPanel';
 import Table from './components/Table';
 import { fdrData } from './fdrData';
+import { fdrMap } from './generatedFdrMap'; // Import fdrMap from generatedFdrMap
 import './App.css';
 import { START_GW } from './constants';
 
@@ -13,22 +14,20 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const processedData = fdrData.map((team, index) => {
+    const processedData = Object.entries(fdrMap).map(([team, fixtures], index) => {
       const processedFixtures = {};
-      Object.entries(team).forEach(([key, value]) => {
-        if (key !== 'GW/Team') {
-          const [opponent, location] = value.split(' ');
-          processedFixtures[`GW${key}`] = {
-            opponent:opponent,
-            isHome: location === '(H)',
-            value: Math.floor(Math.random() * 5) + 1 // Random value between 1 and 5 for FDR
-          };
-        }
+      fixtures.forEach((fixture, i) => {
+        const gwKey = `GW${i + 1}`;
+        processedFixtures[gwKey] = {
+          opponent: fixture.opponent,
+          isHome: fixture.home,
+          value: (fixture.fdr).toFixed(2) // Only 2 decimals
+        };
       });
 
       return {
         id: index + 1,
-        team: team['GW/Team'],
+        team: team,
         ...processedFixtures
       };
     });
