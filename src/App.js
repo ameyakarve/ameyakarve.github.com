@@ -21,7 +21,7 @@ function App() {
         processedFixtures[gwKey] = {
           opponent: fixture.opponent,
           isHome: fixture.home,
-          value: (fixture.fdr).toFixed(2) // Only 2 decimals
+          value: (fixture.fdr).toFixed(1) // Only 1 decimals
         };
       });
 

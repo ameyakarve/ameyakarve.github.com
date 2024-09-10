@@ -48,17 +48,17 @@ function Table({ data, sortConfig, filterConfig, onRequestSort }) {
     
     // Modified ColorBrewer PiYG scale (11 colors)
     const colors = [
-      [237, 180, 201],
-      [212, 114, 158],
-      [176, 60, 119],
-      [136, 32, 92],
-      [89, 13, 61],    // Darkest pink 
+      [226, 117, 173],
+      [152, 59, 110],
+      [126, 50, 90],
+      [105, 38, 73],
+      [85, 22, 67],    // Darkest pink 
       [39, 39, 39],    // Middle (neutral, dark gray)
-      [20, 69, 19],// Darkest green 
-      [37, 95, 33],
-      [65, 125, 59],
-      [102, 155, 94],
-      [144, 184, 138]
+      [20, 61, 121],// Darkest blue 
+      [27, 74, 145],
+      [66, 132, 228],
+      [108, 182, 255],
+      [198, 230, 255]
     ];
 
     const colorIndex = Math.min(Math.floor(ratio * 10), 9);

@@ -3,13 +3,9 @@ import './Table.css';
 
 function GWCell({ opponent, isHome, value, backgroundColor }) {
   // Function to determine if the background color is light
-  const isColorLight = (color) => {
-    const rgb = color.match(/\d+/g);
-    const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
-    return brightness > 128;
-  };
+  
 
-  const textColor = isColorLight(backgroundColor) ? '#000000' : '#ffffff';
+  const textColor = '#ffffff';
 
   return (
     <div className="gw-cell" style={{ backgroundColor }}>

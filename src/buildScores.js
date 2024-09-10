@@ -87,7 +87,7 @@ async function downloadAndSaveData() {
                 let pLoss = 1.0 / (Math.pow(10.0, (+eloDiff/400.0)) + 1.0);
                 let modelAdjustment = (modelCoeff[name.shortName][home?0:1] + modelCoeff[opponent][home?1:0]);
                 let adjustedP = ((pWin / (pWin + pLoss)) + modelAdjustment) / (1 + 2 * modelAdjustment);
-                return {opponent: opponent, home: home, fdr: adjustedP};
+                return {opponent: opponent, home: home, fdr: 10 * (adjustedP > 1.0 ? 1.0 : adjustedP < 0.0 ? 0.0 : adjustedP)};
             });
         });
     }
