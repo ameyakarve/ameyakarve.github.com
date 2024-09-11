@@ -35,6 +35,10 @@ jobs:
       - name: Install dependencies
         run: npm i
 
+      # update data
+      - name: Update data
+        run: npm run updateData
+
       # build the react app
       - name: Build
         run: npm run build
