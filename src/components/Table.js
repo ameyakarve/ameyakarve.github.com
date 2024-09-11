@@ -54,7 +54,7 @@ function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }
     }, {});
 
     return result;
-  }, [data]);
+  }, [data, gameweeks]);
 
   const filteredAndSortedData = useMemo(() => {
     let result = data;
