@@ -1,10 +1,10 @@
 import React from 'react';
 import './Header.css';
 
-function Header() {
+function Header({ title }) {
   return (
-    <header className="App-header">
-      <h1>Your App Title</h1>
+    <header className="header">
+      <h1 className="header-title">{title.toUpperCase()}</h1>
     </header>
   );
 }

@@ -14,6 +14,7 @@ function App() {
   const [selectedMetric, setSelectedMetric] = useState('FDR'); // Add this line
 
   useEffect(() => {
+    document.title = "Ultimate FPL Difficulty Rating";
     const processedData = Object.entries(fdrMap).map(([team, fixtures], index) => {
       const processedFixtures = {};
       fixtures.forEach((fixture, i) => {
@@ -61,7 +62,9 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+      <a href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Header title="Ultimate FPL Difficulty Rating" />
+      </a>
       <div className="banner-ad">
         <span>Advertisement</span>
       </div>
