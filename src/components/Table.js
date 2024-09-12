@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import GWCell from './GWCell';
+import DetailView from './DetailView';
 import './Table.css';
 import { START_GW } from '../constants';
 
@@ -163,6 +164,12 @@ function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }
     setStartGW(prevGW => Math.min(33, prevGW + 1));
   };
 
+  const [openAccordion, setOpenAccordion] = useState(null);
+
+  const handleRowClick = (teamId) => {
+    setOpenAccordion(openAccordion === teamId ? null : teamId);
+  };
+
   useEffect(() => {
     const table = tableRef.current;
     if (!table) return;
@@ -208,10 +215,22 @@ function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }
 
   return (
     <div className="table-container">
-      <div className="scroll-buttons">
-        <button onClick={handleScrollLeft} disabled={startGW === 1}>←</button>
-        <button onClick={handleScrollRight} disabled={startGW === 33}>→</button>
-      </div>
+      {openAccordion === null && (
+        <div className="scroll-buttons">
+          <button 
+            onClick={handleScrollLeft} 
+            disabled={startGW === 1}
+          >
+            ←
+          </button>
+          <button 
+            onClick={handleScrollRight} 
+            disabled={startGW === 33}
+          >
+            →
+          </button>
+        </div>
+      )}
       <table className="fpl-table" ref={tableRef}>
         <thead>
           <tr>
@@ -229,21 +248,36 @@ function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }
         </thead>
         <tbody>
           {filteredAndSortedData.map(row => (
-            <tr key={row.id}>
-              <td>{row.team}</td>
-              {visibleGameweeks.map(gw => (
-                <td key={gw}>
-                  {row[gw] ? (
-                    <GWCell 
-                      opponent={row[gw].opponent}
-                      isHome={row[gw].isHome}
-                      value={row[gw][selectedMetric.toLowerCase()]}
-                      backgroundColor={getColor(parseFloat(row[gw][selectedMetric.toLowerCase()]), selectedMetric)}
-                    />
-                  ) : null}
-                </td>
-              ))}
-            </tr>
+            <React.Fragment key={row.id}>
+              <tr onClick={() => handleRowClick(row.id)}>
+                <td>{row.team}</td>
+                {visibleGameweeks.map(gw => (
+                  <td key={gw}>
+                    {row[gw] ? (
+                      <GWCell 
+                        opponent={row[gw].opponent}
+                        isHome={row[gw].isHome}
+                        value={row[gw][selectedMetric.toLowerCase()]}
+                        backgroundColor={getColor(parseFloat(row[gw][selectedMetric.toLowerCase()]), selectedMetric)}
+                      />
+                    ) : null}
+                  </td>
+                ))}
+              </tr>
+              {openAccordion === row.id && (
+                <tr>
+                  <td colSpan={visibleGameweeks.length + 1} style={{ padding: 0 }}>
+                    <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
+                      <DetailView 
+                        row={row} 
+                        gameweeks={gameweeks} 
+                        onClose={() => setOpenAccordion(null)}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
