@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import GWCell from './GWCell';
 import './Table.css';
 import { START_GW } from '../constants';
 
 function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }) {
   const [startGW, setStartGW] = useState(START_GW);
+  const tableRef = useRef(null);
   const gameweeks = Array.from({ length: 38 }, (_, i) => `GW${i + 1}`);
   const visibleGameweeks = gameweeks.slice(startGW - 1, startGW + 5);
 
@@ -148,21 +149,55 @@ function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }
     return `rgb(${r}, ${g}, ${b})`;
   };
 
-  if (!data || data.length === 0) {
-    return <div>No data available</div>;
-  }
-
   const handleHeaderClick = (gw) => {
     onRequestSort(gw);
   };
 
   const handleScrollLeft = () => {
-    setStartGW(Math.max(1, startGW - 1));
+    console.log('Scrolling left');
+    setStartGW(prevGW => Math.max(1, prevGW - 1));
   };
 
   const handleScrollRight = () => {
-    setStartGW(Math.min(37, startGW + 1));
+    console.log('Scrolling right');
+    setStartGW(prevGW => Math.min(33, prevGW + 1));
   };
+
+  useEffect(() => {
+    const table = tableRef.current;
+    if (!table) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartX = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      handleSwipe();
+    };
+
+    const handleSwipe = () => {
+      const swipeThreshold = 50; // Minimum distance to trigger a swipe
+      if (touchStartX - touchEndX > swipeThreshold) {
+        console.log('Swiped left');
+        handleScrollRight();
+      } else if (touchEndX - touchStartX > swipeThreshold) {
+        console.log('Swiped right');
+        handleScrollLeft();
+      }
+    };
+
+    table.addEventListener('touchstart', handleTouchStart);
+    table.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      table.removeEventListener('touchstart', handleTouchStart);
+      table.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
 
   const renderSortingTriangle = (gw) => {
     if (sortConfig.gws.length === 1 && sortConfig.gws[0] === gw) {
@@ -177,7 +212,7 @@ function Table({ data, sortConfig, filterConfig, onRequestSort, selectedMetric }
         <button onClick={handleScrollLeft} disabled={startGW === 1}>←</button>
         <button onClick={handleScrollRight} disabled={startGW === 33}>→</button>
       </div>
-      <table className="fpl-table">
+      <table className="fpl-table" ref={tableRef}>
         <thead>
           <tr>
             <th onClick={() => handleHeaderClick('team')}>
