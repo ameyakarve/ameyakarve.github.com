@@ -181,6 +181,17 @@ main {
   flex-direction: column;
   height: 100vh;
   max-height: 667px;
+  width: 100%; /* Ensure full width on all devices */
+  max-width: 100%; /* Prevent overflow */
+}
+
+/* Add a media query for desktop screens */
+@media (min-width: 768px) {
+  .app {
+    width: 60%; /* Narrower width for desktop */
+    max-width: 1200px; /* Maximum width for very large screens */
+    margin: 0 auto; /* Center the app on desktop */
+  }
 }
 
 .table-container {
