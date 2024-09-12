@@ -63,26 +63,30 @@ function App() {
     <div className="app">
       <Header />
       <div className="banner-ad">
-        {/* Ad content will go here */}
         <span>Advertisement</span>
       </div>
-      <main>
-        <ControlPanel 
-          onSort={handleSort} 
-          onFilter={handleFilter} 
-          initialFilterConfig={filterConfig}
-          initialSortConfig={sortConfig}
-          onMetricChange={handleMetricChange} // Add this prop
-          selectedMetric={selectedMetric} // Add this prop
-        />
-        <Table 
-          data={data} 
-          sortConfig={sortConfig} 
-          filterConfig={filterConfig} 
-          onRequestSort={handleRequestSort}
-          selectedMetric={selectedMetric} // Add this prop
-        />
-      </main>
+      <div className="content-wrapper">
+        <main>
+          <ControlPanel 
+            onSort={handleSort} 
+            onFilter={handleFilter} 
+            initialFilterConfig={filterConfig}
+            initialSortConfig={sortConfig}
+            onMetricChange={handleMetricChange} // Add this prop
+            selectedMetric={selectedMetric} // Add this prop
+          />
+          <Table 
+            data={data} 
+            sortConfig={sortConfig} 
+            filterConfig={filterConfig} 
+            onRequestSort={handleRequestSort}
+            selectedMetric={selectedMetric} // Add this prop
+          />
+        </main>
+        <aside className="sidebar-ad">
+          <span>Sidebar Ad</span>
+        </aside>
+      </div>
     </div>
   );
 }

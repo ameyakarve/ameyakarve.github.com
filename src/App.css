@@ -197,12 +197,50 @@ main {
   max-width: 100%; /* Prevent overflow */
 }
 
+.content-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.sidebar-ad {
+  display: none; /* Hidden by default on mobile */
+  width: 300px; /* Standard medium rectangle ad size */
+  height: 600px; /* Standard half-page ad height */
+  background-color: #2c2c2c; /* Placeholder background color */
+  margin-left: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.7rem;
+  color: #888;
+}
+
 /* Add a media query for desktop screens */
 @media (min-width: 768px) {
   .app {
-    width: 60%; /* Narrower width for desktop */
-    max-width: 1200px; /* Maximum width for very large screens */
-    margin: 0 auto; /* Center the app on desktop */
+    width: 80%; /* Adjust width to accommodate sidebar */
+    max-width: 1500px; /* Increased maximum width for very large screens */
+    margin: 0 auto;
+  }
+
+  .content-wrapper {
+    flex-direction: row; /* Ensure horizontal layout on desktop */
+  }
+
+  main {
+    width: calc(100% - 300px - 0.5rem); /* Adjust main content width */
+  }
+
+  .sidebar-ad {
+    display: flex; /* Show sidebar ad on desktop */
   }
 }
 
